@@ -55,6 +55,7 @@ export default function SignIn() {
   const [key, setKey]                = useState("")
   const [plat, setPlat]              = useState("PLAT_REDBOOK")
   const [loading, setLoading]        = useState(false)
+  const [loadText, setLoadText]      = useState("")
   const [alert_open, setAlertOpen]   = useState(false)
   const [alert_msg, setAlertMsg]     = useState("")
   const [tab_idx, setTabIdx]         = useState(0)
@@ -71,6 +72,7 @@ export default function SignIn() {
       setAlertOpen(true)
       return 
     }
+    setLoadText('正在润色, 请稍后')
     setLoading(true)
 
     axios.post("/styled-text", {
@@ -118,6 +120,7 @@ export default function SignIn() {
       setAlertOpen(true)
       return 
     }
+    setLoadText('正在获取答案, 请稍后')
     setLoading(true)
     axios.post("/qa", {
         text: queryText,
@@ -152,7 +155,7 @@ export default function SignIn() {
           onClick={handleLoading}
         >
           <CircularProgress color="inherit" />
-          <Typography>正在润色,请稍后</Typography>
+          <Typography>{loadText}</Typography>
         </Backdrop>
         <CssBaseline />
         <Box
