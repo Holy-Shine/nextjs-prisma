@@ -83,7 +83,7 @@ export default function SignIn() {
     setLoadText('正在润色, 请稍后')
     setLoading(true)
     console.log(123)
-    const response = await await axios({
+    const response = await axios({
       url: '/styled-text',
       method: 'POST',
       responseType: 'stream',
