@@ -96,11 +96,9 @@ export default function SignIn() {
         style: user_style
       }),
     });
-
     if (!response.ok) {
       throw new Error(response.statusText);
     }
-
     // This data is a ReadableStream
     const data = response.body;
     if (!data) {
@@ -119,6 +117,7 @@ export default function SignIn() {
       // setResponse((prev) => prev + chunkValue);
     }
     setLoading(false)
+    setLoadText("开始润色")
     // .then(res=>{
     //   setLoading(false)
     //   console.log(res)
