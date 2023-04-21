@@ -25,7 +25,8 @@ import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import axios from 'axios';
 import { Tabs } from '@mui/material';
 import Tab from '@mui/material/Tab';
-
+import LoadingButton from '@mui/lab/LoadingButton';
+import CreateIcon from '@mui/icons-material/Create';
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -51,11 +52,13 @@ const theme = createTheme();
 
 export default function SignIn() {
   const [raw_text, setRawText]       = useState("")
+  const [other_plat, setOtherPlat]   = useState("")
+  const [user_style, setUserStyle]   = useState("")
   const [styled_text, setStyledText] = useState("")
   const [key, setKey]                = useState("")
   const [plat, setPlat]              = useState("PLAT_REDBOOK")
   const [loading, setLoading]        = useState(false)
-  const [loadText, setLoadText]      = useState("")
+  const [load_text, setLoadText]      = useState("开始润色")
   const [alert_open, setAlertOpen]   = useState(false)
   const [alert_msg, setAlertMsg]     = useState("")
   const [tab_idx, setTabIdx]         = useState(0)
@@ -67,6 +70,11 @@ export default function SignIn() {
 
 
   const handleStyledText = () => {
+    if(plat==='PLAT_OTHER' && other_plat.length==0){
+      setAlertMsg("请输入平台名!!!")
+      setAlertOpen(true)
+      return      
+    }
     if(raw_text.length==0){
       setAlertMsg("请先输入要润色的文本!!!")
       setAlertOpen(true)
@@ -149,14 +157,14 @@ export default function SignIn() {
             {alert_msg}
           </Alert>
         </Snackbar>
-        <Backdrop
+        {/* <Backdrop
           sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={loading}
           onClick={handleLoading}
         >
           <CircularProgress color="inherit" />
           <Typography>{loadText}</Typography>
-        </Backdrop>
+        </Backdrop> */}
         <CssBaseline />
         <Box
           sx={{
@@ -200,8 +208,35 @@ export default function SignIn() {
                   <FormControlLabel value="PLAT_REDBOOK" control={<Radio />} label="小红书" />
                   <FormControlLabel value="PLAT_WECHAT" control={<Radio />} label="微信" />
                   <FormControlLabel value="PLAT_WEIBO" control={<Radio />} label="微博" />
+                  <FormControlLabel value="PLAT_OTHER" control={<Radio />} label="其他平台" />
                 </RadioGroup>
               </FormControl>
+              {plat==="PLAT_OTHER" && (
+                  <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  maxRows={10}
+                  name="other_plat"
+                  placeholder="请输入其他平台名称(必填)"
+                  multiline
+                  id="other_plat"
+                  value={other_plat}
+                  onChange={(event)=>{setStyledText("");setOtherPlat(event.target.value)}}
+                />          
+              )}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                maxRows={10}
+                name="style"
+                placeholder="请输入该平台润色风格(可以为空)"
+                multiline
+                id="style"
+                value={user_style}
+                onChange={(event)=>{setStyledText("");setUserStyle(event.target.value)}}
+              />
               <TextField
                 margin="normal"
                 required
@@ -226,14 +261,17 @@ export default function SignIn() {
                 id="raw_text"
                 value={styled_text}
               />
-              <Button
+              <LoadingButton
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleStyledText}
+                loading={loading}
+                loadingPosition="end"
+                endIcon={<CreateIcon />}
               >
-                开始润色
-              </Button>
+                {load_text}
+              </LoadingButton>
             </Box>
           )}
           {tab_idx===1 && (
