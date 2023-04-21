@@ -83,18 +83,18 @@ export default function SignIn() {
     setLoadText('正在润色, 请稍后')
     setLoading(true)
     console.log(123)
-    const response = await axios.post(
-        "/styled-text", {
-        data:{
-          text: raw_text,
-          platform: plat,
-          n_token: 100,
-          key: key,
-          style: user_style
-        },
-        responseType: 'stream'
+    const response = await await axios({
+      url: '/styled-text',
+      method: 'POST',
+      responseType: 'stream',
+      data: {
+        text: raw_text,
+        platform: plat,
+        n_token: 100,
+        key: key,
+        style: user_style
       }
-    );
+    })
     const stream = response.data;
 
     stream.on('data', data => {
