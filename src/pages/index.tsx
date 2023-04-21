@@ -82,7 +82,6 @@ export default function SignIn() {
     }
     setLoadText('正在润色, 请稍后')
     setLoading(true)
-    console.log(123)
 
     const response = await fetch("/styled-text", {
       method: "POST",
@@ -116,8 +115,8 @@ export default function SignIn() {
       const { value, done: doneReading } = await reader.read();
       done = doneReading;
       const chunkValue = decoder.decode(value);
+      setStyledText((prev) => prev + chunkValue);
       // setResponse((prev) => prev + chunkValue);
-      console.log(chunkValue)
     }
     setLoading(false)
     // .then(res=>{
