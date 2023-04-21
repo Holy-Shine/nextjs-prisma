@@ -27,6 +27,7 @@ import { Tabs } from '@mui/material';
 import Tab from '@mui/material/Tab';
 import LoadingButton from '@mui/lab/LoadingButton';
 import CreateIcon from '@mui/icons-material/Create';
+import Paper from '@mui/material/Paper';
 function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -304,9 +305,18 @@ export default function SignIn() {
                 {load_text}
               </LoadingButton>
               {styled_text && (
-        <div className="mt-8 rounded-xl border bg-white p-4 shadow-md transition hover:bg-gray-100">
-          {styled_text}
-        </div>
+      <Box
+      sx={{
+        bgcolor: 'background.paper',
+        boxShadow: 3,
+        borderRadius: 2,
+        p: 2,
+        minWidth: 300,
+      }}
+    >
+      <Box sx={{ color: 'text.secondary' }}>{styled_text}</Box>
+      </Box>
+          
       )}
             </Box>
           )}
