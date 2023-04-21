@@ -54,7 +54,7 @@ export default function SignIn() {
   const [raw_text, setRawText]       = useState("")
   const [other_plat, setOtherPlat]   = useState("")
   const [user_style, setUserStyle]   = useState("")
-  const [styled_text, setStyledText] = useState("")
+  const [styled_text, setStyledText] = useState<String>("")
   const [key, setKey]                = useState("")
   const [plat, setPlat]              = useState("PLAT_REDBOOK")
   const [loading, setLoading]        = useState(false)
@@ -280,7 +280,7 @@ export default function SignIn() {
                 value={raw_text}
                 onChange={(event)=>{setStyledText("");setRawText(event.target.value)}}
               />
-              <TextField
+              {/* <TextField
                 margin="normal"
                 required
                 fullWidth
@@ -291,7 +291,7 @@ export default function SignIn() {
                 multiline
                 id="raw_text"
                 value={styled_text}
-              />
+              /> */}
               <LoadingButton
                 fullWidth
                 variant="contained"
@@ -303,6 +303,11 @@ export default function SignIn() {
               >
                 {load_text}
               </LoadingButton>
+              {styled_text && (
+        <div className="mt-8 rounded-xl border bg-white p-4 shadow-md transition hover:bg-gray-100">
+          {styled_text}
+        </div>
+      )}
             </Box>
           )}
           {tab_idx===1 && (
