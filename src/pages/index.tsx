@@ -83,27 +83,43 @@ export default function SignIn() {
     setLoadText('正在润色, 请稍后')
     setLoading(true)
     console.log(123)
-    const response = await axios({
-      url: '/styled-text',
-      method: 'POST',
-      responseType: 'stream',
-      data: {
+
+    const response = await fetch("/styled-text", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
         text: raw_text,
         platform: plat,
         n_token: 100,
         key: key,
         style: user_style
-      }
-    })
-    const stream = response.data;
+      }),
+    });
 
-    stream.on('data', data => {
-        console.log(data);
-    });
-    
-    stream.on('end', () => {
-        console.log("stream done");
-    });
+    if (!response.ok) {
+      throw new Error(response.statusText);
+    }
+
+    // This data is a ReadableStream
+    const data = response.body;
+    if (!data) {
+      return;
+    }
+
+    const reader = data.getReader();
+    const decoder = new TextDecoder();
+    let done = false;
+
+    while (!done) {
+      const { value, done: doneReading } = await reader.read();
+      done = doneReading;
+      const chunkValue = decoder.decode(value);
+      // setResponse((prev) => prev + chunkValue);
+      console.log(chunkValue)
+    }
+    setLoading(false)
     // .then(res=>{
     //   setLoading(false)
     //   console.log(res)
