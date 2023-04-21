@@ -69,7 +69,7 @@ export default function SignIn() {
 
 
 
-  const handleStyledText = () => {
+  const handleStyledText = async () => {
     if(plat==='PLAT_OTHER' && other_plat.length==0){
       setAlertMsg("请输入平台名!!!")
       setAlertOpen(true)
@@ -83,25 +83,36 @@ export default function SignIn() {
     setLoadText('正在润色, 请稍后')
     setLoading(true)
 
-    axios.post("/styled-text", {
+    const response = await axios.post("/styled-text", {
         text: raw_text,
         platform: plat,
         n_token: 100,
-        key: key
+        key: key,
+        style: user_style
       }
-    ).then(res=>{
-      setLoading(false)
-      console.log(res)
-      if(res.data.success===false){
-        setAlertMsg(res.data.msg)
-        setAlertOpen(true)
-      }
-      else{
-        setStyledText(res.data.msg)
-      }
-    }).catch(error=>{
-        console.log(error)
-    })
+    );
+    const stream = response.data;
+
+    stream.on('data', data => {
+        console.log(data);
+    });
+    
+    stream.on('end', () => {
+        console.log("stream done");
+    });
+    // .then(res=>{
+    //   setLoading(false)
+    //   console.log(res)
+    //   if(res.data.success===false){
+    //     setAlertMsg(res.data.msg)
+    //     setAlertOpen(true)
+    //   }
+    //   else{
+    //     setStyledText(res.data.msg)
+    //   }
+    // }).catch(error=>{
+    //     console.log(error)
+    // })
 
   }
 
