@@ -80,6 +80,7 @@ export default function SignIn() {
       setAlertOpen(true)
       return 
     }
+    setStyledText('')
     setLoadText('正在润色, 请稍后')
     setLoading(true)
 
