@@ -116,8 +116,9 @@ export default function SignIn() {
       setStyledText((prev) => prev + chunkValue);
       // setResponse((prev) => prev + chunkValue);
     }
-    setLoading(false)
     setLoadText("开始润色")
+    setLoading(false)
+    
     // .then(res=>{
     //   setLoading(false)
     //   console.log(res)
